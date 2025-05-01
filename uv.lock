@@ -160,6 +160,7 @@ source = { virtual = "." }
 dependencies = [
     { name = "accelerate" },
     { name = "diarizers" },
+    { name = "huggingface-hub" },
     { name = "punctuators" },
     { name = "pyannote-audio" },
     { name = "torchaudio" },
@@ -175,6 +176,7 @@ dev = [
 requires-dist = [
     { name = "accelerate", specifier = ">=1.6.0" },
     { name = "diarizers", git = "https://github.com/huggingface/diarizers.git" },
+    { name = "huggingface-hub", specifier = ">=0.30.2" },
     { name = "punctuators", specifier = "==0.0.5" },
     { name = "pyannote-audio", specifier = ">=3.3.2" },
     { name = "torchaudio", specifier = ">=2.7.0" },
