@@ -7,7 +7,7 @@
 * **Python:** 3.11
 * **主要ライブラリ:** PyTorch, Transformers, pyannote.audio, torchaudio (詳細は `pyproject.toml` を参照し、`uv sync` でインストールされます)
 * **実行ハードウェア:**
-    *  M3 MacBook Air 2024 メモリ 24GB
+    * M3 MacBook Air 2024 メモリ 24GB
 
 ## 環境構築
 
@@ -16,9 +16,9 @@
 
 2.  **依存ライブラリのインストール:**
     * プロジェクトのルートディレクトリで以下のコマンドを実行し、必要なライブラリをインストールします。
-    ```bash
-    uv sync
-    ```
+        ```bash
+        uv sync
+        ```
 
 3.  **Hugging Face の設定:**
     * **アクセストークン取得:** Hugging Face Hub にログインし、アクセストークン（READ権限）を取得します。
@@ -27,22 +27,22 @@
         * [pyannote/speaker-diarization-3.1](https://huggingface.co/pyannote/speaker-diarization-3.1)
         * [pyannote/segmentation-3.0](https://huggingface.co/pyannote/segmentation-3.0)
     * **Hugging Face CLI ログイン:** コマンドラインから Hugging Face にログインし、取得したトークンを設定します。`uv` 環境内で `huggingface-cli` を実行します。
-    ```bash
-    uv run huggingface-cli login
-    ```
+        ```bash
+        uv run huggingface-cli login
+        ```
     * 以下のようなプロンプトが表示されるので、取得したアクセストークンをペーストしてEnterキーを押します（入力は表示されません）。
-    ```text
-      _|    _|  _|    _|    _|_|_|    _|_|_|  _|_|_|  _|      _|    _|_|_|      _|_|_|_|    _|_|      _|_|_|  _|_|_|_|
-      _|    _|  _|    _|  _|        _|              _|    _|_|    _|  _|              _|        _|    _|  _|        _|
-      _|_|_|_|  _|    _|  _|  _|_|  _|  _|_|    _|    _|  _|  _|  _|  _|_|      _|_|_|    _|_|_|_|  _|        _|_|_|
-      _|    _|  _|    _|  _|    _|  _|    _|    _|    _|    _|_|  _|    _|      _|        _|    _|  _|        _|
-      _|    _|    _|_|      _|_|_|    _|_|_|  _|_|_|  _|      _|    _|_|_|      _|        _|    _|    _|_|_|  _|_|_|_|
+        ```text
+          _|    _|  _|    _|    _|_|_|    _|_|_|  _|_|_|  _|      _|    _|_|_|      _|_|_|_|    _|_|      _|_|_|  _|_|_|_|
+          _|    _|  _|    _|  _|        _|              _|    _|_|    _|  _|              _|        _|    _|  _|        _|
+          _|_|_|_|  _|    _|  _|  _|_|  _|  _|_|    _|    _|  _|  _|  _|  _|_|      _|_|_|    _|_|_|_|  _|        _|_|_|
+          _|    _|  _|    _|  _|    _|  _|    _|    _|    _|    _|_|  _|    _|      _|        _|    _|  _|        _|
+          _|    _|    _|_|      _|_|_|    _|_|_|  _|_|_|  _|      _|    _|_|_|      _|        _|    _|    _|_|_|  _|_|_|_|
 
-      A token is already saved on your machine. Run `huggingface-cli whoami` to get more information or `huggingface-cli logout` if you want to log out.
-      Setting a new token will erase the existing one.
-      To log in, `huggingface_hub` requires a token generated from [https://huggingface.co/settings/tokens](https://huggingface.co/settings/tokens) .
-    Enter your token (input will not be visible): [ここに取得したアクセストークンをペースト]
-    ```
+          A token is already saved on your machine. Run `huggingface-cli whoami` to get more information or `huggingface-cli logout` if you want to log out.
+          Setting a new token will erase the existing one.
+          To log in, `huggingface_hub` requires a token generated from [https://huggingface.co/settings/tokens](https://huggingface.co/settings/tokens) .
+        Enter your token (input will not be visible): [ここに取得したアクセストークンをペースト]
+        ```
 
 ## コマンドの使い方
 
@@ -79,6 +79,7 @@ uv run python main.py <audio_file_path> [OPTIONS]
 * **`--num_speakers N` (オプション):**
     * 音声ファイルに含まれる話者の数を整数で指定します。
     * 指定しない場合、モデルが自動的に話者数を推定します。
+    * **事前に話者数がわかっている場合は、このオプションを指定することで、話者分離の精度が向上する可能性があります。**
     * 例: `--num_speakers 3`
 
 * **`--min_segment_duration SECONDS` (オプション):**
@@ -96,13 +97,13 @@ uv run python main.py <audio_file_path> [OPTIONS]
     * 出力ファイルはカレントディレクトリに `audio-transcription-YYYYMMDDHHMMSS.csv` のような名前で生成されます。
     * Whisper-large-v3 と pyannote/speaker-diarization-3.1 を使用し、話者数は自動推定されます。
 
-2.  **オプションを指定して実行:**
+2.  **オプションを指定して実行 (話者数を指定して精度向上を期待):**
     ```bash
     uv run python main.py input/meeting.wav --output_csv_path output/meeting_transcript.csv --num_speakers 4 --transcription_model_id openai/whisper-medium
     ```
     * `input/meeting.wav` を処理します。
     * 結果は `output/meeting_transcript.csv` に保存されます。
-    * 話者数を4人と指定します。
+    * 話者数を4人と指定します。これにより話者分離の精度向上が期待できます。
     * 文字起こしには Whisper-medium モデルを使用します。
 
 ## 出力ファイルの説明
