@@ -1,0 +1,17 @@
+[project]
+name = "audio-diarization-transcript"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "accelerate>=1.6.0",
+    "diarizers",
+    "punctuators==0.0.5",
+    "pyannote-audio>=3.3.2",
+    "torchaudio>=2.7.0",
+    "transformers>=4.51.3",
+]
+
+[tool.uv.sources]
+diarizers = { git = "https://github.com/huggingface/diarizers.git" }
