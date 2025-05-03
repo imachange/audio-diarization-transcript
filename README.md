@@ -6,8 +6,7 @@
 
 * **Python:** 3.11
 * **主要ライブラリ:** PyTorch, Transformers, pyannote.audio, torchaudio (詳細は `pyproject.toml` を参照し、`uv sync` でインストールされます)
-* **実行ハードウェア:**
-    * M3 MacBook Air 2024 メモリ 24GB
+
 
 ## 環境構築
 
@@ -48,9 +47,11 @@
 
 `main.py` スクリプトはコマンドライン引数を受け取ります。`uv` を使って実行します。
 
+`num_speakers` は指定すると話者分離の精度が向上します。
+
 **基本コマンド:**
 ```bash
-uv run python main.py <audio_file_path> [OPTIONS]
+uv run main.py <audio_file_path> [OPTIONS]
 ```
 
 **引数:**
@@ -92,14 +93,14 @@ uv run python main.py <audio_file_path> [OPTIONS]
 
 1.  **必須引数のみで実行 (他はデフォルト値を使用):**
     ```bash
-    uv run python main.py path/to/your/audio.mp3
+    uv run main.py path/to/your/audio.mp3
     ```
     * 出力ファイルはカレントディレクトリに `audio-transcription-YYYYMMDDHHMMSS.csv` のような名前で生成されます。
     * Whisper-large-v3 と pyannote/speaker-diarization-3.1 を使用し、話者数は自動推定されます。
 
 2.  **オプションを指定して実行 (話者数を指定して精度向上を期待):**
     ```bash
-    uv run python main.py input/meeting.wav --output_csv_path output/meeting_transcript.csv --num_speakers 4 --transcription_model_id openai/whisper-medium
+    uv run main.py input/meeting.wav --output_csv_path output/meeting_transcript.csv --num_speakers 4 --transcription_model_id openai/whisper-medium
     ```
     * `input/meeting.wav` を処理します。
     * 結果は `output/meeting_transcript.csv` に保存されます。
